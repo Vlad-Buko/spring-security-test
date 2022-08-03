@@ -23,7 +23,9 @@ public class Person {
     private int id;
 
     @NotEmpty(message = "Поле не должно быть пустым!")
-    @Size(min = 3, max = 77, message = "Им] должно быть максимум 77 символов!")
+// Убралии аннотацию
+// Добавили @min
+    @Min(value = 1920, message = "Значение не меньше 1920")
     @Column(name = "username")
     private String username;
 
