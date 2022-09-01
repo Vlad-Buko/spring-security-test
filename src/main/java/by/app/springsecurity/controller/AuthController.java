@@ -5,6 +5,7 @@ import by.app.springsecurity.service.RegistrationService;
 import by.app.springsecurity.util.PersonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,8 +21,8 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
-    private final PersonValidator personValidator;
     private final RegistrationService registrationService;
+    private final PersonValidator personValidator;
 
     @Autowired
     public AuthController(PersonValidator personValidator, RegistrationService registrationService) {
@@ -35,7 +36,8 @@ public class AuthController {
     }
 
     @GetMapping("/registration")
-    public String registration(@ModelAttribute("person") Person person) {
+    public String registrationPage(Model model) {
+        model.addAttribute("person", new Person());
         return "auth/registration";
     }
 
@@ -43,10 +45,10 @@ public class AuthController {
     public String performRegistration(@ModelAttribute("person") @Valid  Person person,
                                       BindingResult bindingResult) {
 
-        personValidator.validate(person, bindingResult);
         if (bindingResult.hasErrors()) {
             return "/auth/registration";
         }
+        personValidator.validate(person, bindingResult);
         registrationService.register(person);
         return "redirect:/auth/login";
     }
