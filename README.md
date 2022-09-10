@@ -7,3 +7,5 @@ Here we implementation:
 4. CSRF
 5. LogOut
 6. Custom registration
+
+Under the direction of Nail Alishev(c).
